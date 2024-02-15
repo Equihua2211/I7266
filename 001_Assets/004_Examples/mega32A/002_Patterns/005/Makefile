@@ -10,7 +10,7 @@ CPPFLAGS =
 CFLAGS = -O1 
 AFLAGS = 
 
-all: main.hex
+all: main.elf main.hex
 
 debug: main.i main.s main.o main.elf
 

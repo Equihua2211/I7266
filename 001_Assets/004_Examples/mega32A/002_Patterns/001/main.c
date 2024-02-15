@@ -11,10 +11,8 @@
  *          << Area for macro definitions >>
  ********************************************************************************************************************************/
 #define F_CPU 1000000U
-#define LED_DELAY 100U
-#define START 1U
-#define END 0
-#define BIT_STEP 1U
+#define LED_DELAY 200U
+#define REPETITIONS 4
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
@@ -30,19 +28,42 @@
  ********************************************************************************************************************************/
 int main()
 {	
-    uint8_t output = END;
-
-    DDRA = 0xFF;
-
+    // Set all PORTA bits as outputs
+	DDRA |= 0xFF;
+    PORTA = 1;
+    char count = 0;
+    
+    // Enter an infinite loop
 	while (1)
 	{	
-        if(output == END)
+		while(count < REPETITIONS)
         {
-            output = START;
+            _delay_ms(LED_DELAY);
+            PORTA = (PINA << 1);
+            if( PORTA >= 0x10 )
+            {
+                PORTA = 1;
+                count++;
+            }
         }
-        PORTA = output;
-        _delay_ms(LED_DELAY);
-        output <<= BIT_STEP;
+        
+        count = 0;
+        PORTA = 8;
+
+        while(count < REPETITIONS)
+        {
+            _delay_ms(LED_DELAY);
+            PORTA = (PINA >> 1);
+            if( PORTA <= 0 )
+            {
+                PORTA = 8;
+                count++;
+            }
+        }
+        
+        count = 0;
+        PORTA = 1;
+
 	}
 	
 }

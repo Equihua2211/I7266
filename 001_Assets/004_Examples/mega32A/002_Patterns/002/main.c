@@ -12,8 +12,8 @@
  ********************************************************************************************************************************/
 #define F_CPU 1000000U
 #define LED_DELAY 100U
-#define TOP 0x80
-#define BOTTOM 1U
+#define START 1U
+#define END 0
 #define BIT_STEP 1U
 
 /*********************************************************************************************************************************
@@ -30,21 +30,19 @@
  ********************************************************************************************************************************/
 int main()
 {	
+    uint8_t output = END;
+
     DDRA = 0xFF;
-    PORTA = BOTTOM;
 
 	while (1)
-	{
-        while(PORTA < TOP)
+	{	
+        if(output == END)
         {
-            _delay_ms(LED_DELAY);
-            PORTA <<= BIT_STEP;
-        }        
-        while(PORTA > BOTTOM)
-        {
-            _delay_ms(LED_DELAY);
-            PORTA >>= BIT_STEP;
-        }        
+            output = START;
+        }
+        PORTA = output;
+        _delay_ms(LED_DELAY);
+        output <<= BIT_STEP;
 	}
 	
 }

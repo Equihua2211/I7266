@@ -11,12 +11,7 @@
  *          << Area for macro definitions >>
  ********************************************************************************************************************************/
 #define F_CPU 1000000U
-#define LED_DELAY 200U
-#define BOTTOM 0x02
-#define TOP 0x80
-#define UP 1U
-#define DOWN 0U
-#define BIT_STEP 1U
+#define LED_DELAY 50U
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
@@ -32,27 +27,13 @@
  ********************************************************************************************************************************/
 int main()
 {	
-    uint8_t direction = UP;
-
     DDRA = 0xFF;
-    PORTA = BOTTOM;
+    PORTA = 0;
 
 	while (1)
 	{	
-        while(PORTA < TOP)
-        {
-            _delay_ms(LED_DELAY);
-            PORTA >>= BIT_STEP;
-            _delay_ms(LED_DELAY);
-            PORTA <<= 2 * BIT_STEP;
-        }
-        while(PORTA > BOTTOM)
-        {
-            _delay_ms(LED_DELAY);
-            PORTA >>= 2 * BIT_STEP;
-            _delay_ms(LED_DELAY);
-            PORTA <<= BIT_STEP;
-        }
+        PORTA += 1;
+        _delay_ms(LED_DELAY);
 	}
 	
 }
