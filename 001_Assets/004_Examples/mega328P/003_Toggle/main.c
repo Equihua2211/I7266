@@ -19,7 +19,6 @@
 #include <stdint.h>
 
 #include <avr/io.h>
-#include <avr/interrupt.h>
 #include <util/delay.h>
 
 
@@ -28,26 +27,13 @@
  ********************************************************************************************************************************/
 int main()
 {	
-    // Set Interrupt Sense Control 2 to zero so it triggers an interrupt on a rising edge on INT2
-    MCUCSR |= _BV(ISC2);
-    // Set General Interrupt Control Register 6, External Interrupt Request 2 Enable
-    GICR |= _BV(INT2);
-    // Set Global Interrupt Enable Flag in SREG
-    sei();
-    
-    // Enable PORTA0 as output
+
     DDRA |= (1 << PORTA0); 
-    // Enable PORTB2 as input, this is not neccesary
-    DDRB &= ~(_BV(PORTB2));
 
 	while (1)
 	{	
-        
+        PORTA ^= (1 << PORTA0);
+        _delay_ms(LED_DELAY);
 	}
 	
-}
-
-ISR(INT2_vect)
-{ 
-    PORTA ^=  _BV(PORTA0);
 }

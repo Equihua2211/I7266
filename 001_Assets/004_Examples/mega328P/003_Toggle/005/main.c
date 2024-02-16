@@ -2,52 +2,58 @@
  * File:                    main.c
  * Author:                  Daniel Martinez
  *                          dagmtzs@gmail.com
- * Date:                    yyyy-mm-dd 
- * Target:                  ATmega32A
- * Description:             This is a template for ATmega32A programs written in C
+ * Date:                    Fri Feb 16 01:12:47 AM CST 2024
+ * Target:                  ATmega328P
+ * Description:             This is a template for ATmega328P programs written in C
  */
 
 /*********************************************************************************************************************************
  *          << Area for macro definitions >>
  ********************************************************************************************************************************/
-#define F_CPU 1000000U
-#define LED_DELAY 500U
+#define F_CPU 16000000U
+#define DEBOUNCE_DELAY 30U
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
  ********************************************************************************************************************************/
-#include <stdint.h>
+#include <stdbool.h>
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+
 #include <util/delay.h>
 
+// Declare flag for interrupt
+volatile bool toggle = 0;
 
 /*********************************************************************************************************************************
  *          << Main function >>
  ********************************************************************************************************************************/
 int main()
 {	
-    // Set Interrupt Sense Control 2 to zero so it triggers an interrupt on a rising edge on INT2
-    MCUCSR |= _BV(ISC2);
-    // Set General Interrupt Control Register 6, External Interrupt Request 2 Enable
-    GICR |= _BV(INT2);
-    // Set Global Interrupt Enable Flag in SREG
+    // Set Pin Change Interrupt Control to Enable PCIE1 
+    PCICR = (1 << PCIE1);
+    // Set Pin Change Mask Register to enable PCINT13
+    PCMSK1 = (1 << PCINT13);
+    // SEt Interrupt flag in SREG
     sei();
-    
-    // Enable PORTA0 as output
-    DDRA |= (1 << PORTA0); 
-    // Enable PORTB2 as input, this is not neccesary
-    DDRB &= ~(_BV(PORTB2));
 
+    // Set PORTD7 as output
+	DDRD |= (1 << PORTD7);
+
+    // Enter an infinite loop
 	while (1)
-	{	
-        
+	{
+        if (toggle == 1)
+        {  
+            _delay_ms(DEBOUNCE_DELAY);
+            PORTD ^= (1 << PORTD7);
+            toggle = 0;
+        }
 	}
-	
 }
 
-ISR(INT2_vect)
+ISR(PCINT1_vect)
 { 
-    PORTA ^=  _BV(PORTA0);
+    toggle = 1;
 }

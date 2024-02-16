@@ -11,7 +11,7 @@
  *          << Area for macro definitions >>
  ********************************************************************************************************************************/
 #define F_CPU 1000000U
-#define LED_DELAY 500U
+#define DEBOUNCE 200U
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
@@ -28,26 +28,37 @@
  ********************************************************************************************************************************/
 int main()
 {	
-    // Set Interrupt Sense Control 2 to zero so it triggers an interrupt on a rising edge on INT2
-    MCUCSR |= _BV(ISC2);
-    // Set General Interrupt Control Register 6, External Interrupt Request 2 Enable
-    GICR |= _BV(INT2);
-    // Set Global Interrupt Enable Flag in SREG
-    sei();
-    
-    // Enable PORTA0 as output
+
     DDRA |= (1 << PORTA0); 
-    // Enable PORTB2 as input, this is not neccesary
-    DDRB &= ~(_BV(PORTB2));
+    DDRD &= ~(1 << PORTD7); 
+
+    uint8_t reading = 0;
+    uint8_t latch = 0;
+    uint8_t cycles = 0;
 
 	while (1)
 	{	
+        reading = 0x80 & PIND;
+        if(reading == 0x80)
+        {
+            if(cycles > 20)
+            {
+                PORTA ^= 1;
+            }
+        }
+        else
+        {
+            // Do nothing
+        }
+
+        if (latch == 1)
+        {
+            cycles++;
+        }
         
 	}
 	
 }
 
-ISR(INT2_vect)
-{ 
-    PORTA ^=  _BV(PORTA0);
-}
+
+

@@ -2,27 +2,26 @@
  * File:                    main.c
  * Author:                  Daniel Martinez
  *                          dagmtzs@gmail.com
- * Date:                    2024-02-05
- * Target:                  ATmega328p
+ * Date:                    Thu Feb 15 10:10:08 PM CST 2024
+ * Target:                  ATmega328P
  * Description:             This program is a "Hello World!" implementation for the 
- *                          ATmega328p. It turns on an LED connected to PORTD2.
+ *                          ATmega328P. It turns an LED connected to PORTD7.
  */
 
 #define F_CPU 16000000U
 
 #include <avr/io.h>
-#include <util/delay.h>
 
 int main()
 {	
-    // Set PORTD bit 2 direction as output via Data Direction Register
-	DDRC |= (1 << PORTC5);
+    // Set PORTD bit 7 direction as output via Data Direction Register
+	DDRD |= (1 << PORTD7);
 
     // Enter an infinite loop
 	while (1)
 	{	
-        // Set PORTD bit 2 to HIGH state
-		PORTC |= (1 << PORTC5);
+        // Toggle PORTD bit 7
+		PORTD |= (1 << PORTD7);
 	}
 	
 }

@@ -5,9 +5,9 @@ DUDEFLAGS = -p $(TARGET) -c $(PROGRAMMER) -B$(PROGFREQ) -v
 OBJCPFLAGS = -O ihex
 TARGET = atmega328p
 PROGRAMMER = usbasp
-PROGFREQ = 100kHz
+PROGFREQ = 750kHz
 CPPFLAGS = 
-CFLAGS = -O1 
+CFLAGS = -Os
 AFLAGS = 
 
 all: main.hex
