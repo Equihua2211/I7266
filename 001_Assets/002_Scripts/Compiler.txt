@@ -1,0 +1,8 @@
+A compiler is a computer program that is in charge of translating source code from a high level programming language into a low level programming language. In this subject we will analize tools related to the GNU Compiler Collection.
+We well use avr-gcc to compile our code, it does almost everything we want with a single instruction, to understan this we have to read the documentation, however, that will take a lot of time, so herethis is the way we are going to do it.
+
+avr-gcc our_code.c -mmcu=atmega328p
+
+This command indicates the computer to execute avr-gcc and supply the file our_code.c as the source code, additionally, avr-gcc can compile for multiple devices or architectures which all might be very similar but not equal, so we have to indicate what our intended target is using the argument -mmcu=atmega328p.
+
+If we now see the files in our directory, we observe we have a new file named a.out, 
