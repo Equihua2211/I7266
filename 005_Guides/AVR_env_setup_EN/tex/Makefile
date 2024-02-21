@@ -22,9 +22,8 @@ VPATH = Figs
 # idea from http://ctan.unsw.edu.au/help/uk-tex-faq/Makefile
 $(latexfile).dvi : $(figures) $(latexfile).tex 
 	while ($(TEX) $(latexfile) ; \
-	grep -q "Rerun to get cross" $(latexfile).log ) do true ; \
+	grep -q "Rerun to get" $(latexfile).log ) do true ; \
 	done
-
 
 # keep .eps files in the same directory as the .fig files
 %.eps : %.fig
@@ -47,9 +46,8 @@ $(latexfile).tar.gz : $(figures) $(latexfile).tex
 
 tarball: $(latexfile).tar.gz
 
-
-release: pdf 
-	cp $(latexfile).pdf ../$(RELEASE_NAME).pdf
+release: pdf
+	cp $(latexfile).pdf ../$(NAME).pdf
 	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc
 
 clean: 

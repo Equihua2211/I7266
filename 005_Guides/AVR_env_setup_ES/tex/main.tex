@@ -175,23 +175,23 @@ Para hacer del flujo de trabajo una experiencia más amigable, recomendaría seg
 Una vez que el entorno haya sido configurado, puedes seguir estos pasos para crear, compilar y cargar un programa a tu microcontrolador:
 \begin{enumerate}
     \item Crea una carpeta para guardar tus proyectos de AVR, dentro de ella, crea una carpeta para este programa de ejemplo.
-    \item Open VS Code and open the folder you just created. (File -> Open Folder).
-    \item In the VS Code file explorer, create a new file, name it: {\color{ForestGreen}\texttt{main.c}}.
-    \item From my GitHub page, open my HelloWorld example following \href{https://github.com/dagmtz/I7266/blob/master/001_Assets/004_Examples/mega328P/001_HelloWorld/main.c}{this link}.
-    \item Copy my code and paste it into your newly created file in VS Code.
-    \item Save the file.
+    \item Ejecuta VS Code y abre la carpeta que acabas de crear. (File -> Open Folder).
+    \item En el explorador de archivos de VS Code, crea un nuevo archivo y nómbralo: {\color{ForestGreen}\texttt{main.c}}.
+    \item De mi página de GitHub, abre el ejemplo de HelloWorld en \href{https://github.com/dagmtz/I7266/blob/master/004_Examples/mega328P/001_HelloWorld/main.c}{este enlace}.
+    \item Copia mi código y pégalo en el archivo que acabas de crear en VS Code.
+    \item Guarda el archivo.
     \item Conecta el USBasp a tu microcontrolador (y a tu computadora, si no está conectado aún).
-    \item In the VS Code file explorer, right-click the folder you are working in and select the option \textit{Open in Integrated Terminal}.
+    \item En el explorador de archivos de VS Code, da click derecho a la carpeta en la que estás trabajando y selecciona la opción \textit{Open in Integrated Terminal}, o en el menú \textbf{Terminal} en la opción \textbf{New Terminal}.
     % \item In the Integrated Terminal, type \texttt{avr-gcc}. The output should show the following text:\\ \texttt{avr-gcc.exe: fatal error: no input files\\ compilation terminated}
     % \item In the Integrated Terminal, type \texttt{avrdude}. The ouput should show, at the end, the version of AVRDUDE. Mine says:\\ \texttt{avrdude version 7.3, https://github.com/avrdudes/avrdude}.
-    \item In the Integrated Terminal, execute the following commands: 
+    \item En la Integral Terminada, ingresa uno por uno, los siguientes comandos: 
     \begin{itemize}
         \item \texttt{avr-gcc main.c -mmcu=atmega328p -o main.elf}
         \item \texttt{avr-objcopy -O ihex main.elf main.hex}
         \item \texttt{avrdude -p atmega328p -c usbasp -U flash:w:main.hex}
     \end{itemize}
 \end{enumerate}
-The result should be your microcontroller programmed with my code.
+El resultado debería ser que tu microcontrolador quede programado con ese código.
 
 \subsection{Troubleshooting}
 Here are some things that can make this process fail:
