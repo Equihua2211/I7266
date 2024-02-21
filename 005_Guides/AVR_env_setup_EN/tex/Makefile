@@ -47,7 +47,7 @@ $(latexfile).tar.gz : $(figures) $(latexfile).tex
 tarball: $(latexfile).tar.gz
 
 release: pdf
-	cp $(latexfile).pdf ../$(NAME).pdf
+	cp $(latexfile).pdf ../$(RELEASE_NAME).pdf
 	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc
 
 clean: 
