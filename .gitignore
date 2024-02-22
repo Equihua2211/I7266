@@ -1,6 +1,10 @@
 # Class management files
 000_Management/
 
+# avr-gcc results
+*.i
+*.s
+
 # Object files
 *.o
 *.ko
