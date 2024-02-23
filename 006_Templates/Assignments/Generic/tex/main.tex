@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plantilla para reporte en LaTeX
 % Por Daniel Martínez
 % dag.mtz.97@gmail.com
@@ -10,19 +10,21 @@
 %
 % License:
 % CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Declarar el tipo de documento
-\documentclass[11pt,letterpaper]{article} 
+\documentclass[10pt,letterpaper]{article} 
 
 % Paquetes para idioma, carácteres y símbolos
-\usepackage[condensed,math]{iwona}
 \usepackage[T1]{fontenc}
-\usepackage[spanish, mexico]{babel}
+% \usepackage[spanish]{babel}
+% \usepackage{babel}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
 % Tipo de letra 
+% \usepackage{courier}
+\usepackage{iwona}
 % \usepackage{tgbonum}
 % \usepackage{tgadventor}
 
@@ -31,55 +33,48 @@
 \usepackage[justification=centering]{caption}
 \usepackage{subcaption}
 \usepackage{graphicx}
-\usepackage{epstopdf}
 \usepackage{tabularx}
 \usepackage{float}
 \usepackage{enumitem}
+% \usepackage{epstopdf}
 %\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
 % \usepackage{multirow}
 % \usepackage{textcomp}
 
 %\usepackage{mathtools}
-%\usepackage{siunitx}
+\usepackage{siunitx}
 %\usepackage{mathrsfs}
 
-% Otros
 
-% \usepackage{hyperref}
+% Otros
+\usepackage[obeyspaces]{url}
+\usepackage{hyperref}
+\usepackage[dvipsnames]{xcolor}
 % \usepackage[os=win]{menukeys}
 % \usepackage{biblatex}
 % \addbibresource{sample.bib}
 
 % \usepackage{fancyhdr}
 % \usepackage{listingsutf8}
-% \usepackage{courier}
-% \usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
 
 % Configuraciones 
-% \input{arduinoLanguage.tex}
-
-% \pagestyle{fancy}
-
-% \renewcommand\lstlistingname{Bloque de código}
-% \renewcommand\lstlistlistingname{Índice de códigos}
-
-\setlength{\headheight}{16pt}
-
-% \rhead{\leftmark}
-% \lhead{\rightmark}
-% \cfoot{\thepage}
-% \renewcommand{\headrulewidth}{0.4pt}
-% \renewcommand{\footrulewidth}{0.4pt}
-
+\hypersetup{
+    colorlinks=true,
+    filecolor=black,
+    citecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+% \setlength{\headheight}{16pt}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Comando para líneas horizontales
 
-% \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
-% \definecolor{mylilas}{RGB}{170,55,241}
+% \title{Software development environment setup guide for 8-bit AVR microcontrollers using avr-gcc.}
+% \author{Daniel Giovanni Martínez Sandoval\\ \small{\href{mailto:dagmtzs@gmail.com}{dagmtzs@gmail.com}}}
+% \date{February 2024}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inicio del documento
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 % \hypersetup{pageanchor=false}
 

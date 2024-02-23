@@ -55,6 +55,7 @@ int main()
     // Enter an infinite loop
 	while (1)
 	{
+
         if (toggle == 1)
         {
             PORTD ^= _BV(PORTD7);
