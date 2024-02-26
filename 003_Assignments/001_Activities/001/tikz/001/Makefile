@@ -1,9 +1,6 @@
 # set latexfile to the name of the main file without the .tex
 latexfile = main
 
-# set the directory where the files are
-RELEASE_NAME = Actividad01
-
 # put the names of figure files here.  include the .eps
 # figures = smiley.eps logo.eps
 
@@ -13,8 +10,19 @@ RELEASE_NAME = Actividad01
 
 TEX = latex
 
+# set the name for the PDF release 
+RELEASE_NAME = Pattern_01
+
 # support subdirectories
 VPATH = Figs
+
+pdf : $(latexfile).pdf
+
+$(latexfile).pdf : $(latexfile).ps
+	ps2pdf $(latexfile).ps $(latexfile).pdf
+
+$(latexfile).ps : $(latexfile).dvi
+	dvips $(latexfile)
 
 # reruns latex if needed.  to get rid of this capability, delete the
 # three lines after the rule.  Delete .bbl dependency if not using
@@ -25,30 +33,25 @@ $(latexfile).dvi : $(figures) $(latexfile).tex
 	grep -q "Rerun to get" $(latexfile).log ) do true ; \
 	done
 
+ps : $(latexfile).ps 
+
 # keep .eps files in the same directory as the .fig files
 %.eps : %.fig
 	fig2dev -L eps $< > $(dir $< )$@
 
-$(latexfile).pdf : $(latexfile).ps
-	ps2pdf $(latexfile).ps $(latexfile).pdf
+release: gif 
+	cp $(latexfile).gif ../$(RELEASE_NAME).gif
+	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc *.gif
 
-pdf : $(latexfile).pdf
-
-$(latexfile).ps : $(latexfile).dvi
-	dvips $(latexfile)
-
-ps : $(latexfile).ps 
+tarball: $(latexfile).tar.gz
 
 # make can't know all the sourcefiles.  some file may not have
 # sourcefiles, e.g. eps's taken from other documents. 
 $(latexfile).tar.gz : $(figures) $(latexfile).tex 
 	tar -czvf $(latexfile).tar.gz $^
 
-tarball: $(latexfile).tar.gz
-
-release: pdf 
-	cp $(latexfile).pdf ../$(RELEASE_NAME).pdf
-	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc
+gif: pdf
+	convert -density 300 -delay 30 -loop 0 -background white -alpha remove $(latexfile).pdf $(latexfile).gif
 
 clean: 
-	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc
+	rm -f *.aux *.dvi *.log *.out *.pdf *.ps *.toc *.gif
