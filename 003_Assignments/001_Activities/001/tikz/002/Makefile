@@ -11,7 +11,7 @@ latexfile = main
 TEX = latex
 
 # set the name for the release 
-RELEASE_NAME = Pattern_04
+RELEASE_NAME = Pattern_02
 
 # support subdirectories
 VPATH = Figs
