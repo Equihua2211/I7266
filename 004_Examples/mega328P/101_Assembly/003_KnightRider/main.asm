@@ -1,4 +1,4 @@
-; .include "m328pdef.inc"
+.include "m328pdef.inc"
 
 	.def	mask 	= r16		; mask register
 	.def	oLoopR 	= r18		; outer loop register
@@ -7,19 +7,17 @@
 
 	.equ	oVal 	= 71		; outer loop value
 	.equ	iVal 	= 14084		; inner loop value
+	.equ	bottom	= 0x01
+	.equ	top	= 0x80
 
 	.cseg
 	.org 	0x00
 	ldi	mask,0xFF		; load 11111111 into mask register
 	out     DDRD,mask		; write mask register to DDRD
-	ldi	mask,0x00		; load 0 into mask register
-	out     PORTD,mask		; write mask register to PORTD
-	sec				; set carry flag
+	ldi	mask,bottom		; load 0x01 into mask register
+	; sec				; set carry flag
 
-start:	rol	mask			; rotate left through carry the mask register
-	brcs	init
-	out	PORTD,mask		; write mask register to PORTD
-
+start:	out	PORTD,mask		; write mask register to PORTD
 	ldi	oLoopR,oVal		; initialize outer loop count
 
 oLoop:	ldi	iLoopRl,LOW(iVal)	; intialize inner loop count in inner

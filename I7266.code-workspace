@@ -8,7 +8,8 @@
 		"files.associations": {
 			"io.h": "c",
 			"iom328p.h": "c",
-			"interrupt.h": "c"
+			"interrupt.h": "c",
+			"stdlib.h": "c"
 		}
 	}
 }
