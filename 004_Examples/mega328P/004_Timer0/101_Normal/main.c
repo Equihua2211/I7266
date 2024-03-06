@@ -19,11 +19,7 @@ int main()
     // Main loop
     while (1) 
     {
-        if ((overflow_count % 16) == 0)
-        {
-            PORTD ^= (1 << PORTD7);
-        }
-        
+
     }
 
 }
@@ -32,6 +28,6 @@ int main()
 ISR(TIMER0_OVF_vect) 
 {
     // Increment overflow count
-    overflow_count++;
-    // Additional processing here if needed
+    //overflow_count++;
+    PORTD ^= (1 << PORTD7);
 }

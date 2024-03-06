@@ -9,7 +9,8 @@
 			"io.h": "c",
 			"iom328p.h": "c",
 			"interrupt.h": "c",
-			"stdlib.h": "c"
+			"stdlib.h": "c",
+			"time.h": "c"
 		}
 	}
 }

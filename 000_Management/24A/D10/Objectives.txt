@@ -1,0 +1,13 @@
+
+The next objectives are:
+    Interfacing DS3032 with atmega328p, which needs:
+        I2C
+        USART
+        External Interrupts
+    Driving 7-segment displays
+        Multiplexing
+        7447 IC 
+        BCD
+    PWM
+        Timer0, 1 & 2
+        

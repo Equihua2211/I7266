@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <time.h>
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -44,6 +45,7 @@ typedef struct
 volatile bool toggle = 0;
 volatile myTime_t myTime;
 
+volatile struct tm local_time;
 /*********************************************************************************************************************************
  *          << Main function >>
  ********************************************************************************************************************************/
@@ -53,16 +55,22 @@ int main()
     PCICR = (1 << PCIE1);
     // Set Pin Change Mask Register to enable PCINT13
     PCMSK1 = (1 << PCINT13);
-    // SEt Interrupt flag in SREG
-    sei();
+    
+    // Set prescaler for Timer1 to 8
+    TCCR1B |= (1 << CS11);
+    // Set prescaler for Timer1 to 64
+    // TCCR1B |= (1 << CS11) | (1 << CS10);
+    // Enable Timer1 Overflow Interrupt via TIMSK1
+    TIMSK1 |= (1 << TOIE1);
+
 
     // Set PORTB1 as output
-	DDRB |= (1 << PORTB1);
+	DDRD |= (1 << PORTD7);
     
-    // Set PORTC5 as output
-	DDRC |= (1 << PORTC5);
+    // Set PORTC5 as intput
+	// DDRC |= (1 << PORTC5);
     // Enable pull-up
-    PORTC |= (1 << PORTC5);
+    // PORTC |= (1 << PORTC5);
 
     /* ---------- USART initialization ---------- */
 	uart_init( BAUD_CALC( 115200 ) ); // 8n1 transmission is set as default
@@ -72,11 +80,14 @@ int main()
 	
 	char usartBuffer[BUFF_SIZE];
 
+    // SEt Interrupt flag in SREG
     sei();
     
     myTime.hours = 0;
-    myTime.minutes = 0;
+    myTime.minutes = 55;
     myTime.seconds = 0;
+
+    localtime.
     
     uart_puts_P( "\e[2J\e[H" );
 	uart_puts_P( "\e[1;32m>USART Ready\r\n" );
@@ -87,7 +98,7 @@ int main()
         
         if (toggle == 1)
         {  
-            PORTB ^= (1 << PORTB1);
+            PORTD ^= (1 << PORTD7);
             
             printf("%02d:%02d:%02d\n", myTime.hours, myTime.minutes, myTime.seconds);
             
@@ -96,26 +107,22 @@ int main()
     }
 }
 
-ISR(PCINT1_vect)
+ISR(TIMER1_OVF_vect)
 { 
-    _delay_ms(DEBOUNCE_DELAY);
-    if (~PINC & (1 << PORTC5))
+    toggle = 1;
+    myTime.seconds++;
+    if(myTime.seconds >= 60)
     {
-        toggle = 1;
-        myTime.seconds++;
-        if(myTime.seconds >= 60)
-        {
-            myTime.seconds = 0;
-            myTime.minutes++;
-        }
-        if(myTime.minutes >= 60)
-        {
-            myTime.minutes = 0;
-            myTime.hours++;
-        }    
-        if(myTime.hours >= 24)
-        {
-            myTime.hours = 0;
-        }
+        myTime.seconds = 0;
+        myTime.minutes++;
+    }
+    if(myTime.minutes >= 60)
+    {
+        myTime.minutes = 0;
+        myTime.hours++;
+    }    
+    if(myTime.hours >= 24)
+    {
+        myTime.hours = 0;
     }
 }

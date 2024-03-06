@@ -21,13 +21,10 @@
  *          << Area for includes >>
  ********************************************************************************************************************************/
 #include <stdbool.h>
-#include <stdlib.h>
-#include <stdint.h>
 #include <stdio.h>
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <avr/pgmspace.h>
 
 #include <util/delay.h>
 
@@ -35,7 +32,7 @@
 
 typedef struct
 {
-    uint8_t hour;
+    uint8_t hours;
     uint8_t minutes;
     uint8_t seconds;
 }myTime_t;
@@ -74,7 +71,7 @@ int main()
 
     sei();
     
-    myTime.hour = 0;
+    myTime.hours = 0;
     myTime.minutes = 0;
     myTime.seconds = 0;
     
@@ -86,7 +83,7 @@ int main()
         {  
             PORTB ^= (1 << PORTB1);
             
-            printf("%d\n", myTime.seconds);
+            printf("%02d:%02d:%02d\n", myTime.hours, myTime.minutes, myTime.seconds);
             
             toggle = 0;
         }
@@ -100,5 +97,19 @@ ISR(PCINT1_vect)
     {
         toggle = 1;
         myTime.seconds++;
+        if (myTime.seconds > 59)
+        {
+            myTime.seconds = 0;
+            myTime.minutes++;
+        }
+        if (myTime.minutes > 59)
+        {
+            myTime.minutes = 0;
+            myTime.hours++;
+        }
+        if (myTime.hours > 23)
+        {
+            myTime.hours = 0;
+        }
     }
 }
