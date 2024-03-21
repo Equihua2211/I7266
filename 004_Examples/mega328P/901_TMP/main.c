@@ -34,18 +34,26 @@
 
 #include "usart.h"
 
-typedef struct
-{
-    uint8_t hours;
-    uint8_t minutes;
-    uint8_t seconds;
-}myTime_t;
-
 // Declare flag for interrupt
 volatile bool toggle = 0;
-volatile myTime_t myTime;
 
-volatile struct tm local_time;
+volatile struct tm time_struct;
+volatile struct tm * p_time = &time_struct;
+
+volatile time_t timestamp;
+
+time_struct.tm_sec = 0;
+time_struct.tm_min = 0;
+time_struct.tm_hour = 0;
+
+timestamp = mktime(p_time);
+set_system_time(timestamp);
+
+/*********************************************************************************************************************************
+ *          << Area for function definitions >>
+ ********************************************************************************************************************************/
+void updateDigitValue(uint8_t value);
+
 /*********************************************************************************************************************************
  *          << Main function >>
  ********************************************************************************************************************************/
@@ -83,12 +91,6 @@ int main()
     // SEt Interrupt flag in SREG
     sei();
     
-    myTime.hours = 0;
-    myTime.minutes = 55;
-    myTime.seconds = 0;
-
-    localtime.
-    
     uart_puts_P( "\e[2J\e[H" );
 	uart_puts_P( "\e[1;32m>USART Ready\r\n" );
 
@@ -98,31 +100,48 @@ int main()
         
         if (toggle == 1)
         {  
-            PORTD ^= (1 << PORTD7);
+            //PORTD ^= (1 << PORTD7);
             
-            printf("%02d:%02d:%02d\n", myTime.hours, myTime.minutes, myTime.seconds);
-            
+            //printf("%02d:%02d:%02d\n", time_struct.tm_hour, time_struct.tm_min, time_struct.tm_sec);
+            //printf("%i\n", timestamp);
+            updateDigitValue((uint8_t) time_struct.tm_sec);
             toggle = 0;
         }
     }
 }
 
+void updateDigitValue(uint8_t value)
+{
+    if (value <= 9)
+    {
+        PORTC = value;
+    }
+    else
+    {
+        PORTC = 10;
+    }
+    
+}
+
 ISR(TIMER1_OVF_vect)
 { 
     toggle = 1;
-    myTime.seconds++;
-    if(myTime.seconds >= 60)
+    
+    time_struct.tm_sec++;
+    if(time_struct.tm_sec >= 60)
     {
-        myTime.seconds = 0;
-        myTime.minutes++;
+        time_struct.tm_sec = 0;
+        time_struct.tm_min++;
     }
-    if(myTime.minutes >= 60)
+    if(time_struct.tm_min >= 60)
     {
-        myTime.minutes = 0;
-        myTime.hours++;
+        time_struct.tm_min = 0;
+        time_struct.tm_hour++;
     }    
-    if(myTime.hours >= 24)
+    if(time_struct.tm_hour >= 24)
     {
-        myTime.hours = 0;
+        time_struct.tm_hour = 0;
     }
+    system_tick();
+    reti();
 }
