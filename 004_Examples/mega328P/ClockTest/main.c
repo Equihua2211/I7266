@@ -38,7 +38,7 @@
 volatile bool toggle = 0;
 
 struct tm time_struct;
-struct tm * p_time = &time_struct;
+//struct tm * p_time = &time_struct;
 
 time_struct.tm_sec = 0;
 time_struct.tm_min = 0;

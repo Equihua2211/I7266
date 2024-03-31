@@ -106,8 +106,6 @@ int main()
             g_tm = *gmtime(gp_time);	
 
             printf("%02d:%02d:%02d\n", g_tm.tm_hour, g_tm.tm_min, g_tm.tm_sec);
-            // printf("%lu\n", g_time);
-            //updateValue(g_time % 10);
         }
         refreshDisplays(g_tm.tm_min, g_tm.tm_sec);
     }

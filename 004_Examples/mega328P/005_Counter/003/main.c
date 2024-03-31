@@ -104,17 +104,7 @@ int main()
     }
 }
 
-void refreshDigits(uint8_t number)
-{
-    uint8_t seconds1;
-    uint8_t seconds2;
-    uint8_t minutes1;
-    uint8_t minutes2;
-    uint8_t hours1;
-    uint8_t hours2;
-
-    seconds1 = number % 60;   
-}
+\
 
 void updateValue(uint8_t value)
 {
