@@ -16,7 +16,6 @@
 /* Size for usartBuffer used in main() */
 #define BUFF_SIZE   30
 #define DEBOUNCE_DELAY 2U
-#define STEP_DELAY 1000U
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
@@ -38,18 +37,19 @@
 // Declare flag for interrupt
 volatile bool toggle = 0;
 
-volatile uint8_t counter = 0;
+struct tm time_struct;
+struct tm * p_time = &time_struct;
 
-struct tm g_tm = {0, 22, 13, 31, 0, 2, 124, 91, 0};
-struct tm *gp_tm = &g_tm;
-time_t g_time = 0;
-time_t *gp_time = &g_time;
+time_struct.tm_sec = 0;
+time_struct.tm_min = 0;
+time_struct.tm_hour = 0;
+
+time_t timestamp = mktime(p_time);
 
 /*********************************************************************************************************************************
  *          << Area for function declaration >>
  ********************************************************************************************************************************/
-void refreshDisplays(int8_t minutes, int8_t seconds);
-void updateValue(int8_t value);
+void updateValue(uint8_t value);
 void selectDigit(uint8_t digit);
 
 /*********************************************************************************************************************************
@@ -57,20 +57,23 @@ void selectDigit(uint8_t digit);
  ********************************************************************************************************************************/
 int main()
 {	
-    g_time = mktime(gp_tm);
+    set_system_time(timestamp);
 
-    /* Set prescaler for Timer1 to 8
-    TCCR1B |= (1 << CS11);
-    Set prescaler for Timer1 to 64 */
-    TCCR1B |= (1 << CS11) | (1 << CS10); 
-    /* Enable Timer1 Overflow Interrupt via TIMSK1 */
+    // Set Pin Change Interrupt Control to Enable PCIE1 
+    // PCICR = (1 << PCIE1);
+    // Set Pin Change Mask Register to enable PCINT13
+    // PCMSK1 = (1 << PCINT13);
+    
+    // Set prescaler for Timer1 to 8
+    // TCCR1B |= (1 << CS11);
+    // Set prescaler for Timer1 to 64
+    TCCR1B |= (1 << CS11) | (1 << CS10);
+    // Enable Timer1 Overflow Interrupt via TIMSK1
     TIMSK1 |= (1 << TOIE1);
 
-    // Set PORTB0 as output
-    DDRB |= 0x0F;
-    // Set PORTC0 to PORTC3 as output
-	DDRC |= 0x0F;
-    DDRD ^= (1 << 7);
+
+    // Set PORTB1 as output
+	DDRD |= (1 << PORTD7);
     
     // Set PORTC5 as intput
 	// DDRC |= (1 << PORTC5);
@@ -80,71 +83,42 @@ int main()
     /* ---------- USART initialization ---------- */
 	uart_init( BAUD_CALC( 115200 ) ); // 8n1 transmission is set as default
 	
-	stdout = &uart0_io; /* attach uart stream to stdout & stdin */
-	stdin = &uart0_io; /* uart0_in and uart0_out are only available if NO_USART_RX or NO_USART_TX is defined */
+	stdout = &uart0_io; // attach uart stream to stdout & stdin
+	stdin = &uart0_io; // uart0_in and uart0_out are only available if NO_USART_RX or NO_USART_TX is defined
 	
 	char usartBuffer[BUFF_SIZE];
 
-    /* SEt Interrupt flag in SREG */
+    // SEt Interrupt flag in SREG
     sei();
     
     uart_puts_P( "\e[2J\e[H" );
 	uart_puts_P( "\e[1;32m>USART Ready\r\n" );
 
-    uint8_t digitCounter = 0;
-
-    uart_puts_P( "\e[0m" );
-
-    /* Enter an infinite loop */
+    // Enter an infinite loop
 	while (1)
 	{        
         
-        if (toggle)
+        if (toggle == 1)
         {  
+            //PORTD ^= (1 << PORTD7);
+            
+            printf("%02d:%02d:%02d\n", time_struct.tm_hour, time_struct.tm_min, time_struct.tm_sec);
+            printf("%i\n", timestamp);
+            updateDigitValue((uint8_t) time_struct.tm_sec);
             toggle = 0;
-
-            g_tm = *gmtime(gp_time);	
-
-            printf("%02d:%02d:%02d\n", g_tm.tm_hour, g_tm.tm_min, g_tm.tm_sec);
-            // printf("%lu\n", g_time);
-            //updateValue(g_time % 10);
         }
-        refreshDisplays(g_tm.tm_min, g_tm.tm_sec);
     }
 }
 
-void refreshDisplays(int8_t minutes, int8_t seconds)
+void updateValue(uint8_t value)
 {
-    selectDigit(0);
-    updateValue(seconds % 10);
-    selectDigit(1);
-    _delay_ms(1);
-
-    selectDigit(0);
-    updateValue(seconds / 10);
-    selectDigit(2);
-    _delay_ms(1);
-
-    selectDigit(0);
-    updateValue(minutes % 10);
-    selectDigit(3);
-    _delay_ms(1);
-    
-    selectDigit(0);
-    updateValue((minutes / 10));
-    selectDigit(4);
-    _delay_ms(1);
-}
-
-void updateValue(int8_t value)
-{
-    if (value >= 0 && value <= 9U)
+    if (value <= 9)
     {
         PORTC = value;
     }
     else
     {
-        PORTC = 15U;
+        PORTC = 10;
     }
 }
 
@@ -157,12 +131,29 @@ void selectDigit(uint8_t digit)
     }
     else
     {
-        PORTB &= 0xF0;
+        PORTB = 0;
     }
 }
 
 ISR(TIMER1_OVF_vect)
-{
+{ 
     toggle = 1;
-    g_time++;
+    
+    time_struct.tm_sec++;
+    if(time_struct.tm_sec >= 60)
+    {
+        time_struct.tm_sec = 0;
+        time_struct.tm_min++;
+    }
+    if(time_struct.tm_min >= 60)
+    {
+        time_struct.tm_min = 0;
+        time_struct.tm_hour++;
+    }    
+    if(time_struct.tm_hour >= 24)
+    {
+        time_struct.tm_hour = 0;
+    }
+    system_tick();
+    reti();
 }

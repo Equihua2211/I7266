@@ -13,10 +13,12 @@
 // Included in compilation command
 // #define F_CPU 16000000U
 
-#define DISPLAY_DDR     DDRC
-#define DISPLAY_PORT    PORTC
+#define DISPLAY_DDR         DDRD
+#define DISPLAY_PORT        PORTD
+#define TRANSISTOR_DDR      DDRD
+#define TRANSISTOR_PORT     PORTD
 
-#define DEFAULT_DELAY_MS    2
+#define DEFAULT_DELAY_MS    100
 
 /*********************************************************************************************************************************
  *          << Area for includes >>
@@ -24,11 +26,17 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+#include <stdlib.h>
+
 /*********************************************************************************************************************************
  *          << Area for function definitions >>
  ********************************************************************************************************************************/
 // Este es el PROTOTIPO de una función
+
+void showTime(int8_t minutes, int8_t seconds);
+void showDigit(uint8_t digit);
 void updateDigitValue(uint8_t);
+void clearDigit();
 void selectDigit(uint8_t);
 
 /*********************************************************************************************************************************
@@ -36,55 +44,81 @@ void selectDigit(uint8_t);
  ********************************************************************************************************************************/
 int main()
 {	
-    DDRC = 0x0F; // DDRC = 0b00001111
-    DDRB = 0x0F; // DDRB = 0b00001111
+    TRANSISTOR_DDR = 0x0F;
+    DISPLAY_DDR = 0xF0;
 
     // Enter an infinite loop
     while (1)
     {        
+        //showTime(12,45);
+        updateDigitValue(5);
         selectDigit(1);
-        updateDigitValue(0);
-        _delay_ms(DEFAULT_DELAY_MS);
+        _delay_us(DEFAULT_DELAY_MS);
+        clearDigit();
+        updateDigitValue(4);
         selectDigit(2);
-        updateDigitValue(3);
-        _delay_ms(DEFAULT_DELAY_MS);
-        selectDigit(3);
-        updateDigitValue(9);
-        _delay_ms(DEFAULT_DELAY_MS);
-        selectDigit(4);
+        _delay_us(DEFAULT_DELAY_MS);
+        clearDigit();
         updateDigitValue(2);
-        _delay_ms(DEFAULT_DELAY_MS);
-        
+        selectDigit(3);
+        _delay_us(DEFAULT_DELAY_MS);
+        clearDigit();
+        updateDigitValue(1);
+        selectDigit(4);
+        _delay_us(DEFAULT_DELAY_MS);
+        clearDigit();
     }
+}
+
+void showTime(int8_t minutes, int8_t seconds)
+{
+    updateDigitValue(seconds%10);
+    showDigit(1);
+    updateDigitValue((uint8_t)(seconds/10));
+    showDigit(2);
+    updateDigitValue(minutes%10);
+    showDigit(3);
+    updateDigitValue((uint8_t)(minutes/10));
+    showDigit(4);
+}
+
+void showDigit(uint8_t digit)
+{
+    clearDigit();
+    selectDigit(digit);
+    _delay_us(DEFAULT_DELAY_MS);
 }
 
 void updateDigitValue(uint8_t value)
 {
-    // Limpiar los primeros 4 bits del puerto
-    PORTB &= 0b11110000;
+    // Limpiar los últimos 4 bits del puerto
+    DISPLAY_PORT &= 0b00001111;
 
     // Limitar el valor a 9 como máximo y evitar que se enciendan los bits 4 y mayores
     if (value <= 9)
     {
-        PORTB |= value;
+        DISPLAY_PORT |= (value << 4);
     }
     else
     {
         // Si el valor está fuera de rango, mostrar un caracter especial
-        PORTB |= 10;
+        DISPLAY_PORT |= (10 << 4);
     }
     
 }
 
+void clearDigit()
+{
+    // Limpiar los primeros 4 bits del puerto C
+    TRANSISTOR_PORT &= 0b11110000;
+}
+
 void selectDigit(uint8_t digit)
 {   
-    // Limpiar los primeros 4 bits del puerto
-    PORTC &= 0b11110000;
-
-    // Limitar el valor a 4 como máximo y evitar que se enciendan los bits 4 y mayores
-    if (digit < 5)
+    // Limitar el valor entre 1 a 4 y evitar que se enciendan los bits 4 y mayores
+    if (digit > 0 && digit < 5)
     {
-        PORTB |= (1 << (digit - 1));
+        TRANSISTOR_PORT |= (1 << (digit - 1));
     }
     else
     {

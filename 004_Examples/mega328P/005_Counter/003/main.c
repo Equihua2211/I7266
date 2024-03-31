@@ -40,16 +40,11 @@ volatile bool toggle = 0;
 
 volatile uint8_t counter = 0;
 
-struct tm g_tm = {0, 22, 13, 31, 0, 2, 124, 91, 0};
-struct tm *gp_tm = &g_tm;
-time_t g_time = 0;
-time_t *gp_time = &g_time;
 
 /*********************************************************************************************************************************
  *          << Area for function declaration >>
  ********************************************************************************************************************************/
-void refreshDisplays(int8_t minutes, int8_t seconds);
-void updateValue(int8_t value);
+void updateValue(uint8_t value);
 void selectDigit(uint8_t digit);
 
 /*********************************************************************************************************************************
@@ -57,8 +52,6 @@ void selectDigit(uint8_t digit);
  ********************************************************************************************************************************/
 int main()
 {	
-    g_time = mktime(gp_tm);
-
     /* Set prescaler for Timer1 to 8
     TCCR1B |= (1 << CS11);
     Set prescaler for Timer1 to 64 */
@@ -93,8 +86,6 @@ int main()
 
     uint8_t digitCounter = 0;
 
-    uart_puts_P( "\e[0m" );
-
     /* Enter an infinite loop */
 	while (1)
 	{        
@@ -102,49 +93,38 @@ int main()
         if (toggle)
         {  
             toggle = 0;
-
-            g_tm = *gmtime(gp_time);	
-
-            printf("%02d:%02d:%02d\n", g_tm.tm_hour, g_tm.tm_min, g_tm.tm_sec);
-            // printf("%lu\n", g_time);
-            //updateValue(g_time % 10);
+            printf("%d\n", counter);
+            updateValue(counter % 10);
         }
-        refreshDisplays(g_tm.tm_min, g_tm.tm_sec);
+        if(digitCounter == 4)
+            digitCounter = 0;
+        PORTB = ~(1 << digitCounter);
+        _delay_ms(5);
+        digitCounter++;
     }
 }
 
-void refreshDisplays(int8_t minutes, int8_t seconds)
+void refreshDigits(uint8_t number)
 {
-    selectDigit(0);
-    updateValue(seconds % 10);
-    selectDigit(1);
-    _delay_ms(1);
+    uint8_t seconds1;
+    uint8_t seconds2;
+    uint8_t minutes1;
+    uint8_t minutes2;
+    uint8_t hours1;
+    uint8_t hours2;
 
-    selectDigit(0);
-    updateValue(seconds / 10);
-    selectDigit(2);
-    _delay_ms(1);
-
-    selectDigit(0);
-    updateValue(minutes % 10);
-    selectDigit(3);
-    _delay_ms(1);
-    
-    selectDigit(0);
-    updateValue((minutes / 10));
-    selectDigit(4);
-    _delay_ms(1);
+    seconds1 = number % 60;   
 }
 
-void updateValue(int8_t value)
+void updateValue(uint8_t value)
 {
-    if (value >= 0 && value <= 9U)
+    if (value <= 9)
     {
         PORTC = value;
     }
     else
     {
-        PORTC = 15U;
+        PORTC = 10;
     }
 }
 
@@ -157,12 +137,12 @@ void selectDigit(uint8_t digit)
     }
     else
     {
-        PORTB &= 0xF0;
+        PORTB = 0;
     }
 }
 
 ISR(TIMER1_OVF_vect)
 {
     toggle = 1;
-    g_time++;
+    counter++;
 }
