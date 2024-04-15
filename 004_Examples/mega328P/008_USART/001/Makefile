@@ -7,7 +7,7 @@ TARGET = atmega328p
 PROGRAMMER = usbasp
 PROGFREQ = 750kHz
 CPPFLAGS = 
-CFLAGS = -Os -Wall
+CFLAGS = -Os
 CDEFINES = -D F_CPU=16000000
 AFLAGS = 
 
@@ -16,7 +16,7 @@ all: main.hex
 debug: main.i main.s main.o main.elf
 
 main.elf: main.c
-	$(CC) main.c usart.c -mmcu=$(TARGET) $(CFLAGS) -o main.elf $(CDEFINES)
+	$(CC) main.c -mmcu=$(TARGET) $(CFLAGS) -o main.elf $(CDEFINES)
 
 # main.i: main.c
 # 	$(CC) main.c -mmcu=$(TARGET) $(CFLAGS) -E -o main.elf

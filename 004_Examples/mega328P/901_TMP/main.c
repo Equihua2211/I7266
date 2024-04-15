@@ -91,8 +91,6 @@ int main()
     uart_puts_P( "\e[2J\e[H" );
 	uart_puts_P( "\e[1;32m>USART Ready\r\n" );
 
-    uint8_t digitCounter = 0;
-
     uart_puts_P( "\e[0m" );
 
     /* Enter an infinite loop */
