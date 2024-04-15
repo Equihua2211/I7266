@@ -45,7 +45,7 @@
 
 % Otros
 
-% \usepackage{hyperref}
+\usepackage{hyperref}
 % \usepackage[os=win]{menukeys}
 % \usepackage{biblatex}
 % \addbibresource{sample.bib}
@@ -76,6 +76,14 @@
 % \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
 % \definecolor{mylilas}{RGB}{170,55,241}
 
+\hypersetup{
+    colorlinks=true,
+    filecolor=black,
+    citecolor=black,
+    linkcolor=black,
+    urlcolor=blue
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inicio del documento
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -93,7 +101,7 @@
     \HRule \\[0.3cm]
     { 
         \LARGE \textbf{Tarea 4} \\[0.3cm]
-        \large \textbf{El lenguaje C} \\[0.3cm]
+        \large \textbf{Memorias} \\[0.3cm]
     }
     \HRule \\[2cm]
     
@@ -127,26 +135,25 @@
 \end{enumerate}
 \subsection*{Actividades}
 \begin{enumerate}[label=\arabic*)]
-    \item Realiza una investigación para responder las siguientes preguntas
+    \item Realiza un resumen sobre los conceptos mencionados en los siguientes artículos e incluye elementos gráficos que ilustren lo descrito:
     \begin{itemize}
-        \item Escribe un párrafo describiendo qué caracteriza al lenguaje C de entre otros lenguajes de programación.
-        \item ¿Qué es una variable? ¿Dónde se guardan las variables?
-        \item 
-        \item 
-        \begin{itemize}
-            \item ¿Qué es un SFR?
-            \item ¿Qué es un GPR?
-            \item ¿Qué es el "Instruction Register"?
-            \item ¿Qué es el "Program Counter"?
-            \item ¿Qué es el "Stack Pointer"?
-            \item ¿Qué es el "SREG"?
-            \item ¿Para qué sirve cada uno de los bits del SREG del ATmega328P?
-        \end{itemize}
-        \item ¿Qué es el "Stacºk"?
-        \item ¿Qué es un "Stack Frame"?
+        \item \href{https://www.qt.io/embedded-development-talk/memory-options-for-embedded-systems-how-to-select-the-right-memory-configuration}{www.qt.io/embedded-development-talk/memory-options-for-embedded-systems-how-to-select-the-right-memory-configuration}
+        \item \href{https://embeddedhardwaredesign.com/what-is-embedded-memory/}{embeddedhardwaredesign.com/what-is-embedded-memory/}
+        \item \href{https://barrgroup.com/blog/types-memory-embedded-systems}{barrgroup.com/blog/types-memory-embedded-systems}
     \end{itemize}
-    \item Investiga sobre 6 diferentes arquitecturas populares o actualmente usadas, escribe un párrafo con lo más notable de cada una.
-    \item Lista 10 sistemas embebidos que uses en tu día a día.
+    \item Crea un diagrama, ya sea a mano o en algún formato digital, de manera que te ayude a entender la clasificación y las características de cada tipo de memoria.
+    \item Responde:
+    \begin{itemize}
+        \item ¿Qué es un registro? 
+        \item ¿Qué significa ``word'' en el contexto de memorias?
+        \item ¿Qué tamaño tiene un ``word'' en el ATmega328P?
+        \item ¿Cuántas ``words'' puede almacenar el ATmega328P?
+        \item ¿Qué es una variable?
+        \item ¿Qué es una constante?
+        \item ¿Cuántos bytes ocupan una variable y cuántos una constante?
+        \item ¿Dónde se guardan las variables en un microcontrolador?
+        \item ¿Dónde se guardan las constantes en un microcontrolador?
+    \end{itemize}
 \end{enumerate}
 % \subsection*{Generalidades}
 % \begin{itemize}

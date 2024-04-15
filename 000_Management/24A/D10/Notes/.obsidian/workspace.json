@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "8104ce438ecc1624",
+        "id": "011c2d38cce86578",
         "type": "tabs",
         "children": [
           {
-            "id": "1241841d09eb4d58",
+            "id": "52414bedc83373ef",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Tareas.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Tareas.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Tareas.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Tareas.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -145,8 +137,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1241841d09eb4d58",
+  "active": "52414bedc83373ef",
   "lastOpenFiles": [
-    "Tareas.md"
+    "Tareas.md",
+    "Untitled.md"
   ]
 }
