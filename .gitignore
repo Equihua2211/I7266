@@ -1,6 +1,8 @@
 # Class management files
 # 000_Management/
 
+*.odp#
+
 ### C ###
 # avr-gcc results
 *.i
