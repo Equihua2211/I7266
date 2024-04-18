@@ -2,6 +2,7 @@
 # 000_Management/
 
 *.odp#
+004_Examples/mega328P/008_USART/003
 
 ### C ###
 # avr-gcc results
