@@ -1,16 +1,22 @@
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
 #include <util/delay.h>
 #include <avr/io.h>
 
 #include "includes/usart.h"
+#include "includes/i2c.h"
 
 #define DELAY_TIME_MS       100U
 #define USART_BUFFER_SIZE   255U
-#define BAUD_RATE           9600U
+
+#ifndef BAUD_RATE
+#   define BAUD_RATE           9600U
+#endif
 
 #define I2C_SCL             100000U
 #define I2C_PRESCALER       4U
-
-#define TWBR_CALC(__SCL, __PRES) ((F_CPU / __SCL - 16U) / 2 * __PRES )
 
 char USART_buffer[USART_BUFFER_SIZE];
 
@@ -18,14 +24,39 @@ int main( void )
 {
     USART_init(UBRR_CALC(BAUD_RATE));
     USART_puts( "\e[2J\e[H" );
-    USART_puts( "\e[1;36m> USART Ready\r\n\n" );
+    USART_puts( "\e[1;36m> USART Ready\r\n" );
+    USART_puts( "\e[0m\n" );
 
-    TWBR = TWBR_CALC(I2C_SCL, I2C_PRESCALER);
-    TWCR = (1<<TWINT)|(1<<TWSTA|(1<<TWEN);
+    _delay_ms(1000);
+
+    DDRC = (1<<PORTC5) | (PORTC4);
+    PORTC = (1<<PORTC5) | (PORTC4);
+    
+    I2C_init();
+    USART_puts( "I2C initialized\r\n" );    
+
+    uint8_t year = 0;
+
+    I2C_start();
+    I2C_write_sla(TW_SLA_W(DS3231_ADDRESS));
+    I2C_write(0x06);
+    I2C_write(0x24);
+    I2C_stop();
 
     while(1U)
     {
-        
+        _delay_ms(1000);
+        I2C_start();
+        I2C_write_sla(TW_SLA_W(DS3231_ADDRESS));
+        I2C_write(0x06);
+        I2C_start();
+        I2C_write_sla(TW_SLA_R(DS3231_ADDRESS));
+        year = I2C_readNAck();
+        I2C_stop();
+
+        utoa(year, USART_buffer, 16);
+        USART_puts(USART_buffer);
+        USART_puts("\r\n");
     }
 }
 
