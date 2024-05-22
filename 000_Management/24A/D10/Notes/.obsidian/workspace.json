@@ -11,8 +11,12 @@
             "id": "52414bedc83373ef",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Temas pendientes.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Temas pendientes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Temas pendientes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Temas pendientes.md"
+              }
             }
           }
         ]
@@ -140,6 +148,6 @@
   "active": "52414bedc83373ef",
   "lastOpenFiles": [
     "Tareas.md",
-    "Untitled.md"
+    "Temas pendientes.md"
   ]
 }
