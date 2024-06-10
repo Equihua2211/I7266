@@ -1,0 +1,216 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plantilla para reporte en LaTeX
+% Por Daniel Martínez
+% dag.mtz.97@gmail.com
+%
+%
+% Basado en:
+%
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Declarar el tipo de documento
+\documentclass[10pt,letterpaper]{exam} 
+
+% Paquetes para idioma, carácteres y símbolos
+\usepackage[condensed,math]{iwona}
+\usepackage[T1]{fontenc}
+\usepackage[spanish, mexico]{babel}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Tipo de letra 
+% \usepackage{tgbonum}
+% \usepackage{tgadventor}
+
+% Márgenes, figuras, gráficos, tablas, listas
+%\usepackage{geometry}
+\usepackage[top=0.6in, bottom=0.6in, left=0.6in, right=0.6in]{geometry}
+\usepackage[justification=centering]{caption}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{enumitem}
+%\epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+% \usepackage{multirow}
+% \usepackage{textcomp}
+
+\usepackage{tikz}
+
+%\usepackage{mathtools}
+%\usepackage{siunitx}
+%\usepackage{mathrsfs}
+
+% Otros
+
+% \usepackage{hyperref}
+% \usepackage[os=win]{menukeys}
+% \usepackage{biblatex}
+% \addbibresource{sample.bib}
+
+\usepackage{listings}
+% \usepackage{fancyhdr}
+% \usepackage{listingsutf8}
+\usepackage{courier}
+% \usepackage{color} %red, green, blue, yellow, cyan, magenta, black, white
+\usepackage{xcolor}
+
+
+% Configuraciones 
+% \input{arduinoLanguage.tex}
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,        
+    frame = single,
+    keepspaces=true,     
+    %linewidth=6cm,
+    numbers=left,                    
+    numbersep=10pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C,
+    xleftmargin=1cm,
+    xrightmargin=12cm
+}
+
+
+% \pagestyle{fancy}
+
+% \renewcommand\lstlistingname{Bloque de código}
+% \renewcommand\lstlistlistingname{Índice de códigos}
+
+% \setlength{\headheight}{16pt}
+
+% \rhead{\leftmark}
+% \lhead{\rightmark}
+% \cfoot{\thepage}
+% \renewcommand{\headrulewidth}{0.4pt}
+% \renewcommand{\footrulewidth}{0.4pt}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Comando para líneas horizontales
+
+% \definecolor{mygreen}{RGB}{28,172,0} % color values Red, Green, Blue
+% \definecolor{mylilas}{RGB}{170,55,241}
+
+\pointpoints{punto}{puntos}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inicio del documento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{center}
+\textsc{\Large Universidad de Guadalajara}\\
+\textsc{Centro Universitario de Ciencias Exactas e Ingenierías}\\
+\vspace{6mm}
+\textbf{Examen diagnóstico\\ Programación de Sistemas Embebidos - I7266}\\
+\vspace{6mm}
+{Nombre: \rule{0.7\textwidth}{0.4pt}} Fecha: \rule{0.15\textwidth}{0.4pt}\\
+\vspace{6mm}
+\fbox{\fbox{\parbox{6in}{\centering\small \textbf{Indicaciones}\\Este examen no aporta puntos a la calificación final. Responde las preguntas sin pensarlas demasiado, no se espera que domines todos los temas mencionados pero sí que tengas noción de ellos. Si no conoces la respuesta de la pregunta puedes responder con los conocimientos que tengas relacionados a la esta.}}}
+\end{center}
+\begin{questions}
+    \vspace{5mm}
+    \question ¿Qué es la ley de ohm?
+    \vspace{\stretch{1}}
+    \question ¿Para qué sirven las leyes de Kirchhoff?
+    \vspace{\stretch{1}}
+    \question ¿Qué componentes electrónicos pasivos conoces?
+    \vspace{\stretch{1}}
+    \question ¿Qué componentes electrónicos activos conoces?
+    \vspace{\stretch{1}}
+    \question ¿Cuál es la característica principal de un diodo?
+    \vspace{\stretch{1}}
+    \question ¿Para qué sirve un transistor?
+    \vspace{\stretch{1}}
+    \question ¿Cuáles son las diferencias entre un transistor BJT y un MOSFET?
+    \vspace{\stretch{1}}
+    \clearpage
+    \question ¿Cuáles son los operadores usados en álgebra booleana?
+    \vspace{\stretch{1}}
+    \question ¿Qué es un {mapa de Karnaugh}?
+    \vspace{\stretch{1}}
+    \question ¿Cuál es la diferencia entre un circuito lógico combinacional y uno secuencial?
+    \vspace{\stretch{1}}
+    \question ¿Cuál es la diferencia entre un \textit{latch} y un \textit{flip-flop}?
+    \vspace{\stretch{1}}
+    \question ¿Qué es una memoria?
+    \vspace{\stretch{1}}
+    \question ¿Qué diferencia una señal digital de una analógica?
+    \vspace{\stretch{1}}
+    \question ¿Qué es una variable?
+    \vspace{\stretch{1}}
+    \question ¿Qué es una máquina de estados finita?
+    \vspace{\stretch{1}}
+    \question ¿Cuál es la diferencia entre un lenguaje compilado y uno interpretado?
+    \vspace{\stretch{1}}
+\end{questions}
+\thispagestyle{empty}
+\end{document}
+
+%\vspace{1cm}
+%\question ¿Qué hace un compilador? (5 puntos)
+%\begin{choices}
+%   \choice alsdkfa
+%   \choice asdklfjd
+%\end{choices}
+%\vspace{1cm}
+%\question ¿Qué es un adsfasdf? \\
+%\begin{oneparchoices}
+%    \choice alsdkfa
+%    \choice asdklfjd
+%\end{oneparchoices}
+%\vspace{\stretch{1}}
+%\question ¿Qué es un adsfasdf? \\
+%\begin{checkboxes}
+%    \choice alsdkfa
+%    \choice asdklfjd
+%\end{checkboxes}
+%\question ¿Qué entiendes por el término \textit{arquitectura} en el contexto de microcontroladores? (10 puntos)
+%\vspace{\stretch{1}}
+%\question ¿Qué es una interrupción y por qué puede ser conveniente usar una en lugar de hacer \textit{polling} a un evento? (10 puntos) 
+%\vspace{\stretch{1}}
+%\question ¿Cuáles son las diferencias entre una interrupción interna y una externa? (10 puntos)
+%\vspace{\stretch{1}}
+%\question ¿Qué pasos se requieren para pasar de código fuente (\textit{.c}) a un ejecutable para el ATmega328P (\textit{.hex})? (20 puntos)
+%\vspace{\stretch{1}}
+%%\clearpage
+%\question Explica la diferencia entre memoria \textit{volátil} y \textit{no-volátil}. (5 puntos)
+%\vspace{1cm}
+%\question ¿Qué significan RAM y ROM? (5 puntos)
+%\vspace{1cm}
+%\question ¿Las RAM y ROM son memorias \textit{volátiles} o \textit{no-volátiles}? (5 puntos)
+%\vspace{1cm}
+%\question Explica cuál crees que sea el propósito de las siguientes líneas de código en C para un microcontrolador de la familia AVR de 8 bits. (20 puntos) 
+%\begin{lstlisting}[style=CStyle]
+%DDRA = 0x0F;
+%PORTA = 0xFF;
+%\end{lstlisting}
+%\vspace{\stretch{1}}
+%\question ¿Cuál es el principal uso de la RAM y la ROM en un sistema computacional, respectivamente? (10 puntos)
+%\vspace{\stretch{1}}
+%\question Si el rango de memoria direccionable de un microcontrolador está delimitado por el ancho del bus de datos, ¿cuál será la última dirección a la que un microcontrolador de 16 bits podría accesar? (20 puntos)
+%\vspace{\stretch{1}}
+%\question Hay una estructura inicializada en la dirección \texttt{0x007FD8} de la memoria SRAM de un microcontrolador. La estructura está compuesta por una variable tipo \texttt{uint8\textunderscore t}, un arreglo de 8 elementos tipo \texttt{int32\textunderscore t} y una variable tipo \texttt{char}. Si todos los elementos de la estructura se almacenan uno después del otro y sin espacios. ¿Cuál sería la dirección de la variable tipo \texttt{char}? (25 puntos)
+%\vspace{\stretch{1}}
+
